@@ -1,0 +1,41 @@
+name: Bug 报告
+description: 报告 OpenCAXPy 中可复现的问题
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: textarea
+    attributes:
+      label: 问题描述
+      description: 请描述实际结果和期望结果。
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 最小复现代码
+      render: python
+    validations:
+      required: true
+
+  - type: dropdown
+    attributes:
+      label: 后端
+      options:
+        - NumPy
+        - PyTorch CPU
+        - PyTorch CUDA
+        - 其他
+    validations:
+      required: true
+
+  - type: input
+    attributes:
+      label: Python 与 OpenCAXPy 版本
+      placeholder: "Python 3.12, OpenCAXPy 0.2.0"
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 运行环境
+      description: 操作系统、GPU、CUDA、PyTorch、NumPy 等信息。
