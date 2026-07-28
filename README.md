@@ -1,72 +1,91 @@
-# OpenCAXPy v0.2.0
+# OpenCAXPy Mesh Kernel v0.5
 
-本版将拓扑按单元族独立拆分，并新增 VTK 后处理。
+OpenCAXPy Mesh Kernel 是一个面向 CAE、有限元、网格生成、CAD 关联和 GUI 的 Python 原生网格拓扑内核。
 
-## 独立拓扑
+## v0.5 已实现
 
-```text
-mesh/topology/
-├── base.py
-├── factory.py
-├── triangle.py
-├── quadrilateral.py
-├── tetrahedron.py
-├── hexahedron.py
-└── utils.py
+- 统一 `Mesh` 数据模型
+- `Geometry` 坐标存储
+- `ElementDescriptor` 元素局部拓扑
+- `Connectivity` CSR 邻接存储
+- `Topology` 通用维度连接查询
+- `TopologyBuilder`
+- Triangle3
+- Quad4
+- Tetra4
+- Hexa8
+- `cell -> vertex`
+- `cell -> edge`
+- `edge -> vertex`
+- `edge -> cell`
+- `cell -> face`
+- `face -> vertex`
+- `face -> edge`
+- `face -> cell`
+- `edge -> face`
+- `cell -> cell`
+- 边界边、边界面、边界顶点提取
+- 非流形实体检测
+- 节点、边、面、单元数据字段
+- 高阶节点类型定义和元素注册表框架
+- pytest 完整测试
+
+## 安装
+
+```bash
+pip install -e ".[test]"
 ```
 
-统一接口仍然是 `mesh.topology`，实际返回 `TriangleTopology`、`QuadrilateralTopology`、`TetrahedronTopology` 或 `HexahedronTopology`。
+## 测试
 
-## VTK 后处理
+```bash
+pytest
+```
 
-无需安装 VTK 即可导出 VTU：
+## 示例
 
 ```python
-mesh.write_vtu('mesh.vtu')
+import numpy as np
+from opencaxpy import Mesh, CellType
+
+points = np.array([
+    [0.0, 0.0],
+    [1.0, 0.0],
+    [0.0, 1.0],
+    [1.0, 1.0],
+])
+
+cells = np.array([
+    [0, 1, 2],
+    [1, 3, 2],
+])
+
+mesh = Mesh(points, cells, CellType.TRIANGLE3)
+mesh.build_topology()
+
+print(mesh.topology.connectivity(2, 1))  # cell -> edge
+print(mesh.topology.connectivity(1, 2))  # edge -> cell
+print(mesh.boundary_edges())
+print(mesh.cell_neighbors(0))
 ```
 
-安装可视化依赖：
+## Extensible meshing v0.9
 
-```bash
-pip install -e '.[visual]'
-```
+The meshing module now provides:
 
-交互显示：
+- generator registry and plugin interface
+- structured Triangle/Quad/Tetra/Hexa generators
+- arbitrary polygon Triangle3 generation
+- disk and L-shaped special meshes
+- uniform Triangle3 and Quad4 refinement
+- Triangle6, Quad8/Quad9 and Tetra10 conversion
+- triangle quality metric
+- FEALPy-style 2D Matplotlib plot backend
+- VTK Viewer retained for interactive 3D/post-processing
 
-```python
-mesh.show(scalars='temperature', show_edges=True, show_node_ids=True)
-```
+Examples are under `examples/meshing/`.
 
-## GitHub 开发与 CI/CD
 
-仓库采用：
+## v1.0 Fifth-stage Meshing
 
-```text
-main       稳定发布
-develop    日常集成
-feature/*  新功能
-fix/*      普通修复
-release/*  发布准备
-hotfix/*   线上紧急修复
-```
-
-初始化：
-
-```bash
-chmod +x scripts/bootstrap_git.sh
-./scripts/bootstrap_git.sh
-```
-
-本地质量检查：
-
-```bash
-python -m pip install -e ".[dev]"
-pre-commit install
-./scripts/check.sh
-```
-
-详细说明：
-
-- `CONTRIBUTING.md`
-- `docs/BRANCH_PROTECTION.md`
-- `docs/RELEASE.md`
+See `docs/FIFTH_STAGE_MESHING.md`.

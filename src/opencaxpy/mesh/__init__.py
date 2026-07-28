@@ -1,5 +1,42 @@
-from .cell_type import CellType
+from .cell_type import (
+    CELL_TYPES,
+    HEXA8,
+    QUAD4,
+    QUAD8,
+    QUAD9,
+    TETRA4,
+    TRIANGLE3,
+    TRIANGLE6,
+    CellDescriptor,
+    get_cell_type,
+    register_cell_type,
+)
+from .connectivity import Connectivity
+from .data import MeshData
+from .geometry import MeshGeometry
 from .mesh import Mesh
-from .generators import rectangle_triangle, rectangle_quad, box_tetra, box_hexa
-from .topology import BaseTopology, TriangleTopology, QuadrilateralTopology, TetrahedronTopology, HexahedronTopology, create_topology
-__all__=['CellType','Mesh','BaseTopology','TriangleTopology','QuadrilateralTopology','TetrahedronTopology','HexahedronTopology','create_topology','rectangle_triangle','rectangle_quad','box_tetra','box_hexa']
+from .topology import Topology
+from .types import HexaMesh, QuadMesh, TetraMesh, TriangleMesh
+
+__all__ = [
+    "CellDescriptor",
+    "CELL_TYPES",
+    "register_cell_type",
+    "get_cell_type",
+    "TRIANGLE3",
+    "TRIANGLE6",
+    "QUAD4",
+    "QUAD8",
+    "QUAD9",
+    "TETRA4",
+    "HEXA8",
+    "Connectivity",
+    "MeshData",
+    "MeshGeometry",
+    "Topology",
+    "Mesh",
+    "TriangleMesh",
+    "QuadMesh",
+    "TetraMesh",
+    "HexaMesh",
+]
