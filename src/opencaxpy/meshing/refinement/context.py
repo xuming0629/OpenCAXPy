@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from numbers import Integral
 from typing import Any
 
 
@@ -15,6 +16,11 @@ class RefinementContext:
     transfer_cell_data: bool = True
     options: dict[str, Any] = field(default_factory=dict)
 
-    def __post_init__(self):
-        if self.levels <= 0:
-            raise ValueError("levels must be positive")
+    def __post_init__(self) -> None:
+        if not isinstance(self.levels, Integral):
+            raise TypeError("levels must be an integer")
+
+        self.levels = int(self.levels)
+
+        if self.levels < 0:
+            raise ValueError("levels must be non-negative")

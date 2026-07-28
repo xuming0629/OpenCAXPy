@@ -189,9 +189,22 @@ class Mesh:
         return self.to_backend("torch", device=device)
 
 
-    def refine(self, method: str = "uniform", **kwargs):
+    def refine(
+        self,
+        method: str = "uniform",
+        *,
+        levels: int = 1,
+        **kwargs,
+    ):
+        """Refine this mesh for one or more successive levels."""
         from ..meshing.refinement import refine
-        return refine(self, method=method, **kwargs)
+
+        return refine(
+            self,
+            method=method,
+            levels=levels,
+            **kwargs,
+        )
 
     def plot(self, **kwargs):
         from ..post import plot_mesh

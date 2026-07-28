@@ -615,12 +615,12 @@ def main() -> None:
     # Uniform refinement
     # ============================================================
 
-    result = refine(
-        mesh,
-        method="uniform",
-    )
+    # result = refine(
+    #     mesh,
+    #     method="uniform",
+    # )
 
-    refined = result.mesh
+    # refined = result.mesh
 
     # ============================================================
     # Print original mesh
@@ -635,24 +635,24 @@ def main() -> None:
     # Print refinement mapping
     # ============================================================
 
-    print_refinement_result(
-        result
-    )
+    # print_refinement_result(
+    #     result
+    # )
 
-    # ============================================================
-    # Print refined mesh
-    # ============================================================
+    # # ============================================================
+    # # Print refined mesh
+    # # ============================================================
 
-    print_mesh_info(
-        refined,
-        name="refined triangle mesh",
-    )
+    # print_mesh_info(
+    #     refined,
+    #     name="refined triangle mesh",
+    # )
 
     # ============================================================
     # VTK visualization
     # ============================================================
 
-    viewer = refined.viewer(
+    viewer = mesh.viewer(
         show_nodes=True,
         show_edges=True,
         show_boundary=False,
