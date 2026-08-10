@@ -1,0 +1,1 @@
+"""Coupling extension point."""

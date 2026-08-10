@@ -1,91 +1,91 @@
-# OpenCAXPy Mesh Kernel v0.5
+# OpenCAXPy v1.1
 
-OpenCAXPy Mesh Kernel 是一个面向 CAE、有限元、网格生成、CAD 关联和 GUI 的 Python 原生网格拓扑内核。
+General computational engineering and CAX framework.
 
-## v0.5 已实现
+v1.1 is the first runnable implementation based on the frozen
+**OpenCAXPy Architecture 1.0**.
 
-- 统一 `Mesh` 数据模型
-- `Geometry` 坐标存储
-- `ElementDescriptor` 元素局部拓扑
-- `Connectivity` CSR 邻接存储
-- `Topology` 通用维度连接查询
-- `TopologyBuilder`
-- Triangle3
-- Quad4
-- Tetra4
-- Hexa8
-- `cell -> vertex`
-- `cell -> edge`
-- `edge -> vertex`
-- `edge -> cell`
-- `cell -> face`
-- `face -> vertex`
-- `face -> edge`
-- `face -> cell`
-- `edge -> face`
-- `cell -> cell`
-- 边界边、边界面、边界顶点提取
-- 非流形实体检测
-- 节点、边、面、单元数据字段
-- 高阶节点类型定义和元素注册表框架
-- pytest 完整测试
+Implemented main paths:
 
-## 安装
+- backend / linalg
+- mesh
+- field / function space / DOF entity abstraction
+- FEM form + integrator
+- Poisson P1
+- Truss2D
+- Euler-Bernoulli Beam2D
+- Timoshenko Beam2D
+- multi-property materials
+- sections
+- Model / Problem
+- assembly / solver / analysis
+- field-based results
+- post-processing extension
+- FVM/FDM/fluid/electromagnetic/multiphysics extension points
+
+Run:
 
 ```bash
-pip install -e ".[test]"
+pip install -e .[dev]
+pytest -q
 ```
 
-## 测试
+
+## Mesh Kernel and Visualization
+
+v1.1 mesh layer now provides:
+
+- generic node / edge / face / cell entity API
+- lazy `MeshTopology`
+- `cell_to_edge`, `cell_to_face`
+- `edge_to_cell`, `face_to_cell`
+- boundary node / edge / face extraction
+- edge length, cell measure and barycenter
+- lightweight cell-quality diagnostics
+- Interval2 / Triangle3 / Quad4 / Tetra4 / Hexa8 mesh families
+- 2D / 3D Matplotlib `MeshViewer`
+- node / edge / face / cell numbering
+- boundary visualization
+
+Examples:
 
 ```bash
-pytest
+python examples/01_mesh/01_triangle_topology.py
+python examples/01_mesh/02_quad_mesh.py
+python examples/01_mesh/03_tetra_mesh.py
+python examples/01_mesh/04_hexa_mesh.py
+python examples/01_mesh/05_all_meshes.py
 ```
 
-## 示例
+
+## VTK-native visualization
+
+OpenCAXPy v1.1 now uses **VTK** as its visualization backend. Matplotlib is not
+used by the mesh viewer.
+
+Core bridge:
 
 ```python
-import numpy as np
-from opencaxpy import Mesh, CellType
-
-points = np.array([
-    [0.0, 0.0],
-    [1.0, 0.0],
-    [0.0, 1.0],
-    [1.0, 1.0],
-])
-
-cells = np.array([
-    [0, 1, 2],
-    [1, 3, 2],
-])
-
-mesh = Mesh(points, cells, CellType.TRIANGLE3)
-mesh.build_topology()
-
-print(mesh.topology.connectivity(2, 1))  # cell -> edge
-print(mesh.topology.connectivity(1, 2))  # edge -> cell
-print(mesh.boundary_edges())
-print(mesh.cell_neighbors(0))
+from opencaxpy import to_vtk_unstructured_grid
+vtk_grid = to_vtk_unstructured_grid(mesh)
 ```
 
-## Extensible meshing v0.9
+Interactive viewer:
 
-The meshing module now provides:
+```python
+from opencaxpy import VTKMeshViewer, VTKMeshViewerOptions
 
-- generator registry and plugin interface
-- structured Triangle/Quad/Tetra/Hexa generators
-- arbitrary polygon Triangle3 generation
-- disk and L-shaped special meshes
-- uniform Triangle3 and Quad4 refinement
-- Triangle6, Quad8/Quad9 and Tetra10 conversion
-- triangle quality metric
-- FEALPy-style 2D Matplotlib plot backend
-- VTK Viewer retained for interactive 3D/post-processing
+viewer = VTKMeshViewer(
+    mesh,
+    VTKMeshViewerOptions(
+        show_surface=True,
+        show_edges=True,
+        show_nodes=True,
+        show_node_ids=True,
+        show_cell_ids=True,
+    ),
+)
+viewer.show()
+```
 
-Examples are under `examples/meshing/`.
-
-
-## v1.0 Fifth-stage Meshing
-
-See `docs/FIFTH_STAGE_MESHING.md`.
+Off-screen rendering is also supported with `save_screenshot()`.

@@ -1,28 +1,20 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
-build-backend = "setuptools.build_meta"
+requires=["setuptools>=68","wheel"]
+build-backend="setuptools.build_meta"
 
 [project]
-name = "opencaxpy"
-version = "0.8.0"
-description = "OpenCAXPy mesh, meshing, FEM, solver and post-processing framework"
-readme = "README.md"
-requires-python = ">=3.10"
-dependencies = [
-    "numpy>=1.24"
-]
+name="opencaxpy"
+version="1.1.0"
+description="General computational engineering and CAX framework"
+requires-python=">=3.10"
+dependencies=["numpy>=1.24","vtk>=9.3"]
 
 [project.optional-dependencies]
-meshing = ["scipy>=1.10", "matplotlib>=3.7"]
-vtk = ["vtk>=9.2"]
-test = [
-    "pytest>=8.0"
-]
+dev=["pytest>=7.0"]
 
 [tool.setuptools.packages.find]
-where = ["src"]
+include=["opencaxpy*"]
 
 [tool.pytest.ini_options]
-pythonpath = ["src"]
-testpaths = ["tests"]
-addopts = "-q"
+testpaths=["tests"]
+addopts="-q"
