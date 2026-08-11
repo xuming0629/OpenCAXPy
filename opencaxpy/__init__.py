@@ -9,6 +9,16 @@ from .mesh import (
     QuadrangleMesh,
     TetrahedronMesh,
     HexahedronMesh,
+    uniform_refine,
+    bisect_triangle,
+    uniform_refine_triangle,
+    uniform_refine_quadrangle,
+    uniform_refine_tetrahedron,
+    uniform_refine_hexahedron,
+    Quadtree,
+    QuadtreeCell,
+    Octree,
+    OctreeCell,
 )
 from .fields import Field
 from .functionspace import DofEntity, LagrangeSpace, MixedSpace
