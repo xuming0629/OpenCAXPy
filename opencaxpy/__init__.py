@@ -2,16 +2,32 @@ __version__ = "1.1.0"
 
 from .backend import backend_manager
 from .mesh import (
-    Mesh, IntervalMesh, TriangleMesh, QuadrangleMesh,
-    TetrahedronMesh, HexahedronMesh,
+    Mesh,
+    create_mesh,
+    IntervalMesh,
+    TriangleMesh,
+    QuadrangleMesh,
+    TetrahedronMesh,
+    HexahedronMesh,
 )
 from .fields import Field
 from .functionspace import DofEntity, LagrangeSpace, MixedSpace
 from .discretization.fem import (
-    BilinearForm, LinearForm, DiffusionIntegrator, SourceIntegrator,
-    Truss2D, EulerBernoulliBeam2D, TimoshenkoBeam2D,
+    BilinearForm,
+    LinearForm,
+    DiffusionIntegrator,
+    SourceIntegrator,
+    Truss2D,
+    EulerBernoulliBeam2D,
+    TimoshenkoBeam2D,
 )
-from .materials import Material, MechanicalProperties, ThermalProperties, FluidProperties, ElectromagneticProperties
+from .materials import (
+    Material,
+    MechanicalProperties,
+    ThermalProperties,
+    FluidProperties,
+    ElectromagneticProperties,
+)
 from .sections import TrussSection, BeamSection
 from .physics import PoissonPhysics, StructuralPhysics, HeatPhysics
 from .models import Model, Problem, StructuralModel

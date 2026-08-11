@@ -1,11 +1,16 @@
-from .cell_type import CellType, CELL_TYPES, get_cell_type
-from .topology import MeshTopology
-from .mesh import Mesh
-from .interval import IntervalMesh
-from .triangle import TriangleMesh
-from .quad import QuadrangleMesh
-from .tetrahedron import TetrahedronMesh
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""OpenCAXPy mesh public API."""
+
+from .cell_type import CELL_TYPES, CellType, get_cell_type
+from .factory import create_mesh
 from .hexahedron import HexahedronMesh
+from .interval import IntervalMesh
+from .mesh import Mesh
+from .quadrangle import QuadrangleMesh
+from .tetrahedron import TetrahedronMesh
+from .topology import MeshTopology
+from .triangle import TriangleMesh
 
 __all__ = [
     "CellType",
@@ -13,6 +18,7 @@ __all__ = [
     "get_cell_type",
     "MeshTopology",
     "Mesh",
+    "create_mesh",
     "IntervalMesh",
     "TriangleMesh",
     "QuadrangleMesh",
