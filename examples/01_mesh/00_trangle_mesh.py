@@ -4,8 +4,11 @@ import sys
 ROOT_DIR = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT_DIR))
 
-from opencaxpy import TriangleMesh, VTKMeshViewer, VTKMeshViewerOptions
-from opencaxpy.mesh import TriangleMesh
+from opencaxpy import (
+    TriangleMesh,
+    MeshStyle,
+    show_mesh,
+)
 
 mesh = TriangleMesh.from_box(
     box=(0.0, 1.0, 0.0, 1.0),
@@ -46,16 +49,18 @@ print(
 )
 
 
-viewer = VTKMeshViewer(
-    mesh,
-    VTKMeshViewerOptions(
-        show_surface=True,
-        show_edges=True,
-        show_nodes=True,
-        show_node_ids=True,
-        show_cell_ids=True,
-        show_edge_ids=True,
-        title="Triangle3 Mesh",
-    ),
+style = MeshStyle(
+    show_surface=True,
+    show_edges=True,
+    show_nodes=True,
+    show_node_ids=True,
+    show_edge_ids=True,
+    show_cell_ids=True,
 )
-viewer.show()
+
+
+show_mesh(
+    mesh,
+    style=style,
+    # title="Triangle3 Mesh",
+)

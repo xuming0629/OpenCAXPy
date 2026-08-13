@@ -48,4 +48,28 @@ from .analysis import SteadyAnalysis, StaticAnalysis
 from .results import Result, FieldResult
 from .post import von_mises_3d
 
-from .visualization import VTKMeshViewerOptions, VTKMeshViewer, to_vtk_unstructured_grid, view_mesh
+from .visualization import (
+    show,
+    show_mesh,
+    show_solution,
+    show_convergence,
+    view_mesh,
+    # Figure / Plot
+    Figure,
+    MeshPlot,
+    SolutionPlot,
+    ConvergencePlot,
+    # Result
+    Field,
+    Solution,
+    # Convergence
+    ConvergenceResult,
+    estimate_convergence_order,
+    # Styles
+    OpenCAXTheme,
+    DEFAULT_THEME,
+    MeshStyle,
+    FieldStyle,
+    DeformationStyle,
+    FigureOptions,
+)

@@ -1,107 +1,96 @@
-# from __future__ import annotations
-# from dataclasses import dataclass
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+
+Color = tuple[float, float, float]
 
 
-# @dataclass
-# class VTKMeshViewerOptions:
-#     show_surface: bool = True
-#     show_edges: bool = True
-#     show_nodes: bool = True
-#     show_boundary_only: bool = False
+@dataclass(frozen=True)
+class OpenCAXTheme:
+    """OpenCAXPy 默认可视化主题。
 
-#     show_node_ids: bool = False
-#     show_edge_ids: bool = False
-#     show_face_ids: bool = False
-#     show_cell_ids: bool = False
+    网格颜色保持 Visualization v1.x 的原有风格。
+    """
 
-#     point_size: float = 8.0
-#     line_width: float = 1.5
-#     surface_opacity: float = 0.35
+    # 浅灰背景
+    background: Color = (0.94, 0.94, 0.94)
 
-#     background: tuple[float, float, float] = (0.12, 0.14, 0.18)
-#     surface_color: tuple[float, float, float] = (0.72, 0.78, 0.88)
-#     edge_color: tuple[float, float, float] = (0.08, 0.08, 0.10)
-#     node_color: tuple[float, float, float] = (0.92, 0.36, 0.22)
-#     text_color: tuple[float, float, float] = (0.95, 0.95, 0.95)
+    # 红色节点
+    node_color: Color = (0.90, 0.20, 0.18)
 
-#     window_size: tuple[int, int] = (1100, 800)
-#     title: str = 'OpenCAXPy VTK Mesh Viewer'
+    # 深蓝色边
+    edge_color: Color = (0.12, 0.32, 0.58)
+
+    # 浅蓝色面
+    face_color: Color = (0.45, 0.68, 0.88)
+
+    # 浅绿色单元/表面
+    cell_color: Color = (0.55, 0.78, 0.58)
+    surface_color: Color = (0.55, 0.78, 0.58)
+
+    # 深灰文字
+    text_color: Color = (0.15, 0.15, 0.15)
+
+    # 未变形网格
+    undeformed_color: Color = (0.35, 0.35, 0.35)
 
 
-from dataclasses import dataclass
+DEFAULT_THEME = OpenCAXTheme()
 
 
 @dataclass
-class VTKMeshViewerOptions:
+class MeshStyle:
+    """网格绘制样式。
+
+    只描述网格本身的显示方式，不保存 title/window_size 等 Figure 属性。
+    """
+
     show_surface: bool = True
     show_edges: bool = True
     show_nodes: bool = True
     show_boundary_only: bool = False
 
-    # ID 显示
     show_node_ids: bool = False
     show_edge_ids: bool = False
     show_face_ids: bool = False
     show_cell_ids: bool = False
 
-    # 尺寸
     point_size: float = 8.0
     line_width: float = 1.5
     surface_opacity: float = 0.35
 
-    # -----------------------------
-    # 颜色
-    # -----------------------------
+    theme: OpenCAXTheme = field(default_factory=lambda: DEFAULT_THEME)
 
-    # 背景：浅白灰
-    background: tuple[float, float, float] = (
-        0.94,
-        0.94,
-        0.94,
-    )
 
-    # 节点：红色
-    node_color: tuple[float, float, float] = (
-        0.90,
-        0.20,
-        0.18,
-    )
+@dataclass
+class FieldStyle:
+    """标量/向量场显示样式。"""
 
-    # 边：深蓝色
-    edge_color: tuple[float, float, float] = (
-        0.12,
-        0.32,
-        0.58,
-    )
+    show_scalar_bar: bool = True
+    scalar_bar_labels: int = 5
+    scalar_range: tuple[float, float] | None = None
 
-    # 面：浅蓝色
-    face_color: tuple[float, float, float] = (
-        0.45,
-        0.68,
-        0.88,
-    )
+    show_vectors: bool = False
+    vector_scale: float = 1.0
 
-    # 单元：浅绿色
-    cell_color: tuple[float, float, float] = (
-        0.55,
-        0.78,
-        0.58,
-    )
 
-    # 保留兼容旧接口
-    surface_color: tuple[float, float, float] = (
-        0.55,
-        0.78,
-        0.58,
-    )
+@dataclass
+class DeformationStyle:
+    """结构变形显示样式。"""
 
-    # 文字：深灰
-    text_color: tuple[float, float, float] = (
-        0.15,
-        0.15,
-        0.15,
-    )
+    enabled: bool = False
+    scale: float | str = "auto"
+    show_undeformed: bool = True
+    undeformed_opacity: float = 0.45
+    undeformed_line_width: float = 1.0
 
-    window_size: tuple[int, int] = (1100, 800)
 
-    title: str = "OpenCAXPy VTK Mesh Viewer"
+@dataclass
+class FigureOptions:
+    """整个可视化窗口/Figure 的配置。"""
+
+    window_size: tuple[int, int] = (1200, 800)
+    figsize: tuple[float, float] = (12.0, 7.0)
+    dpi: int = 180
+    title: str | None = None
+    theme: OpenCAXTheme = field(default_factory=lambda: DEFAULT_THEME)

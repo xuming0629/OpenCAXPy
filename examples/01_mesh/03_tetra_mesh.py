@@ -22,11 +22,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
 
-from opencaxpy import (
-    TetrahedronMesh,
-    VTKMeshViewer,
-    VTKMeshViewerOptions,
-)
+from opencaxpy import TetrahedronMesh, MeshStyle, show_mesh
 
 
 def print_title(title: str):
@@ -585,18 +581,20 @@ def main():
     # ================================================================
 
     print_title("VTK Visualization")
+    style = MeshStyle(
+        show_surface=True,
+        show_edges=True,
+        show_nodes=True,
+        show_node_ids=True,
+        show_edge_ids=True,
+        show_cell_ids=True,
+    )
 
-    VTKMeshViewer(
+    show_mesh(
         mesh,
-        VTKMeshViewerOptions(
-            show_surface=True,
-            show_edges=True,
-            show_nodes=True,
-            show_boundary_only=False,
-            show_cell_ids=True,
-            title="Tetra4 Mesh",
-        ),
-    ).show()
+        style=style,
+        # title="Triangle3 Mesh",
+    )
 
 
 if __name__ == "__main__":

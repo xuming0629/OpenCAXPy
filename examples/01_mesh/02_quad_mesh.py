@@ -24,8 +24,8 @@ sys.path.insert(0, str(ROOT))
 
 from opencaxpy import (
     QuadrangleMesh,
-    VTKMeshViewer,
-    VTKMeshViewerOptions,
+    MeshStyle,
+    show_mesh,
 )
 
 
@@ -457,19 +457,20 @@ def main():
     # ================================================================
 
     print_title("VTK Visualization")
+    style = MeshStyle(
+        show_surface=True,
+        show_edges=True,
+        show_nodes=True,
+        show_node_ids=True,
+        show_edge_ids=True,
+        show_cell_ids=True,
+    )
 
-    VTKMeshViewer(
+    show_mesh(
         mesh,
-        VTKMeshViewerOptions(
-            show_surface=True,
-            show_edges=True,
-            show_nodes=True,
-            show_cell_ids=True,
-            show_edge_ids=True,
-            show_node_ids=True,
-            title="Quad4 Mesh",
-        ),
-    ).show()
+        style=style,
+        # title="Triangle3 Mesh",
+    )
 
 
 if __name__ == "__main__":
